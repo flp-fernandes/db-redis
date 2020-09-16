@@ -1,15 +1,36 @@
 const redis = require('redis');
+const express = require('express');
+const { promisify } = require('util');
 
-const client = redis.createClient({
-    auth_pass: 'foobared'
-});
+const app = express();
+const client = redis.createClient();
+const getAsync = promisify(client.get).bind(client);
 
-client.on('connect', () => console.log('connected'));
+app.use(express.json());
 
-for(let i = 0; i < 100; i++) {
-    client.set('framework', 'ReactJS',  (err, reply) => {
-        if (err) console.error(err);
+app.post('/teste', async (req, res) => {
+    const { cpf } = req.body;
 
-        console.log(reply);
+    if (!cpf) {
+        return res.status(500).send({
+            msg: 'no cpf'
+        })
+    }
+
+    client.on('connect', () => console.log('connected'));
+    const isOnRedis = await getAsync(cpf);
+    if (isOnRedis) {
+        return res.status(500).send({
+            msg: 'aguarde para realizar request'
+        })    
+    } else {
+        client.set(cpf, 'ok');
+        client.expire(cpf, 10);
+    }
+    
+    return res.status(200).send({
+        msg: 'deu tudo certo'
     });
-}
+})
+
+app.listen(3000, () => console.log('Is on'));
