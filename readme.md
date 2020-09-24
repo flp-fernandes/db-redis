@@ -5,3 +5,5 @@ http://docs.redisdesktop.com/en/latest/quick-start/
 https://redis.io/documentation
 
 https://computingforgeeks.com/how-to-install-latest-redis-on-centos-7/
+
+https://www.sitepoint.com/using-redis-node-js/

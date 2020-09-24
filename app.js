@@ -1,5 +1,5 @@
-const redis = require('redis');
 const express = require('express');
+const redis = require('redis');
 const { promisify } = require('util');
 
 const app = express();
@@ -17,15 +17,14 @@ app.post('/teste', async (req, res) => {
         })
     }
 
-    client.on('connect', () => console.log('connected'));
+    //client.on('connect', () => console.log('connected'));
     const isOnRedis = await getAsync(cpf);
     if (isOnRedis) {
         return res.status(500).send({
             msg: 'aguarde para realizar request'
         })    
     } else {
-        client.set(cpf, 'ok');
-        client.expire(cpf, 10);
+        client.setex(cpf, 10, 'ok');
     }
     
     return res.status(200).send({
