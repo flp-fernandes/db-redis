@@ -7,3 +7,6 @@ https://redis.io/documentation
 https://computingforgeeks.com/how-to-install-latest-redis-on-centos-7/
 
 https://www.sitepoint.com/using-redis-node-js/
+
+>>> A MAIS IMPORTANTE DOCUMENTAÇÃO:
+https://github.com/NodeRedis/node-redis
